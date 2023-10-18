@@ -1,0 +1,20 @@
+- name: Install NPM modules for frotend 
+  shell: |
+    nvm use v8.17.0
+    npm install
+  args:
+    chdir: /mnt/c/DevopsRumpup/DevOpsRMP/microservice-app-example/frontend
+
+- name: Build frontend 
+  shell: |
+    npm run build
+  args:
+    chdir: /mnt/c/DevopsRumpup/DevOpsRMP/microservice-app-example/frontend
+
+- name: Execute frontend
+  shell: |
+    PORT=8080 AUTH_API_ADDRESS=http://127.0.0.1:8000 TODOS_API_ADDRESS=http://127.0.0.1:8082 npm start
+  async: 1500
+  poll: 0
+  args:
+    chdir: /mnt/c/DevopsRumpup/DevOpsRMP/microservice-app-example/frontend

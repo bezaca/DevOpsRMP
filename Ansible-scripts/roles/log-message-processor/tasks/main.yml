@@ -1,0 +1,13 @@
+- name: Install requirements
+  shell: |
+    python3.7 -m pip install -r requirements.txt
+  args:
+    chdir: /mnt/c/DevopsRumpup/DevOpsRMP/microservice-app-example/log-message-processor
+
+- name: Execute Log Message Processor
+  shell: |
+    REDIS_HOST=127.0.0.1 REDIS_PORT=6379 REDIS_CHANNEL=log_channel python3.7 main.py
+  async: 1500
+  poll: 0
+  args:
+    chdir: /mnt/c/DevopsRumpup/DevOpsRMP/microservice-app-example/log-message-processor

@@ -1,0 +1,15 @@
+- name: Install NPM modules for TODO API 
+  shell: |
+    nvm use v8.17.0
+    npm install
+  args:
+    chdir: /mnt/c/DevopsRumpup/DevOpsRMP/microservice-app-example/todos-api
+
+
+- name: Execute TODO API
+  shell: |
+    JWT_SECRET=PRFT TODO_API_PORT=8082 npm start
+  async: 1500
+  poll: 0
+  args:
+    chdir: /mnt/c/DevopsRumpup/DevOpsRMP/microservice-app-example/todos-api

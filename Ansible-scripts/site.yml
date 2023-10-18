@@ -1,0 +1,10 @@
+
+- name: Deploy TODO App
+  hosts: localhost
+  roles:
+    - users-api
+    - auth-api
+    - todos-api
+    - log-message-processor
+    - frontend
+
