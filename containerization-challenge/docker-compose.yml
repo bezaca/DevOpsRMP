@@ -1,0 +1,33 @@
+version: '3'
+services:
+  redis: 
+    image: bitnami/redis:latest
+    container_name: redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+  log-processor:
+    image: fcabezaperf/log-message-processor:1
+    container_name: log-processor
+    depends_on:
+      - redis
+  auth-api:
+    image: fcabezaperf/auth-api:1
+    container_name: auth-api
+    depends_on:
+      - users_api
+  users_api:
+    image: fcabezaperf/users-api:1
+    container_name: users-api
+  todos-api:
+    image: fcabezaperf/todos-api:1
+    container_name: todos-api
+    depends_on:
+      - auth-api
+  frontend:
+    image: fcabezaperf/frontend:1
+    container_name: frontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth-api
+      - todos-api

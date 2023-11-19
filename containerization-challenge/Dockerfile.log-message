@@ -1,0 +1,17 @@
+FROM python:3.6.15 as builder
+WORKDIR /app
+COPY . ./
+RUN pip install --user -r requirements.txt
+
+FROM python:3.6.15-slim
+
+WORKDIR /app
+COPY --from=builder /root/.local /root/.local
+COPY --from=builder /app /app
+
+ENV PATH=/root/.local/bin:$PATH
+ENV REDIS_HOST redis 
+ENV REDIS_PORT 6379  
+ENV REDIS_CHANNEL log_channel
+
+CMD [ "python" , "main.py" ]

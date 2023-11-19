@@ -1,0 +1,25 @@
+FROM  golang:1.18 AS build-stage
+
+WORKDIR /app
+
+COPY . ./
+
+ENV GO111MODULE on
+RUN go mod init github.com/bortizf/microservice-app-example/tree/master/auth-api
+RUN go mod tidy
+
+COPY *.go ./
+RUN go build -o /auth-api
+
+
+FROM gcr.io/distroless/base-debian11 AS build-release-stage
+WORKDIR /
+
+COPY --from=build-stage /auth-api /auth-api
+EXPOSE 8000
+
+ENV JWT_SECRET=PRFT \
+    AUTH_API_PORT=8000 \
+    USERS_API_ADDRESS=http://users-api:8083
+
+ENTRYPOINT [ "/auth-api"]

@@ -1,0 +1,14 @@
+FROM node:8.17-slim
+
+ENV PORT 8080
+ENV AUTH_API_ADDRESS http://auth-api:8000
+ENV TODOS_API_ADDRESS http://todos-api:8002
+
+WORKDIR /app
+COPY . .
+
+RUN npm install
+RUN npm run build
+
+ENTRYPOINT [ "npm", "start"]
+
